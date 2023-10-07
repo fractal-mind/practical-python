@@ -4,15 +4,14 @@
 
 import csv
 from typing import Optional
-from icecream import ic
 
 def parse_csv(filename: str, has_headers: True, select: Optional[list]= None,
-              types: Optional[list]= None) -> list:
+              types: Optional[list]= None, delimiter: Optional[str]= ',') -> list:
     '''
     Parse a CSV file into a list of records
     '''
     with open(filename) as f:
-        rows = csv.reader(f)
+        rows = csv.reader(f, delimiter=delimiter)
 
         # Read file headers
         if has_headers == False:
@@ -47,14 +46,9 @@ def parse_csv(filename: str, has_headers: True, select: Optional[list]= None,
                 #If there are no headers, create list of tuples instead of dict
                 if has_headers == False:
                     row = (row[0], row[1])
-                    ic(row)
-                    ic(has_headers)
-                    #record = zip(row[0], row[1])
                     records.append(row)
                 else:
                     record = dict(zip(headers, row))
-                    ic(row)
-                    ic(has_headers)
                     records.append(record)
             else:
                 print("ERROR: Too many or too few types listed")
