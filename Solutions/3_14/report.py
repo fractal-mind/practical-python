@@ -22,6 +22,7 @@ def make_report_data(portfolio,prices):
     '''
     rows = []
     for stock in portfolio:
+        ic(stock, stock['name'], stock['price'])
         current_price = prices[stock['name']]
         change = current_price - stock['price']
         summary = (stock['name'], stock['shares'], current_price, change)

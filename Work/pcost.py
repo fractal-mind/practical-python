@@ -2,35 +2,44 @@
 #
 # Exercise 1.27
 
-import os
 import csv
+from report import read_portfolio
+from icecream import ic
 
-def portfolio_cost(filename):
+def print_portfolio_cost(portfolio):
 
-    #open file
-    f = open(filename)
-    rows = csv.reader(f)
-    headers = next(rows)
     total_cost = 0
+    portfolio = read_portfolio(portfolio)
 
-    #read lines
-    for rowno, row in enumerate(rows, start=1):
-        record = dict(zip(headers, row))
+    # Read dictionaries
+    for stock in portfolio:
         try:
-            ticker = row[0]
-            nshares = int(record['shares'])
-            price = float(record['price'])
+            ticker = stock['name']
+            nshares = stock['shares']
+            price = stock['price']
 
-            #calculate cost to purchase all shares in portfolio
+            # Calculate cost to purchase all shares in portfolio
             total_cost_ea = nshares * price
             total_cost = total_cost + total_cost_ea
 
             print(f'Total cost for {ticker}: ${total_cost_ea:.2f}')
 
         except ValueError:
-            print(f"Row {rowno}: Couldn't parse: {row}")
-        
+            print(f"Couldn't parse: {stock}")
 
     print('-'*15)
     print(f'Total cost for portfolio: ${total_cost}')
-    f.close()
+
+def main(argv):
+    
+    if len(argv) != 2:
+        raise SystemExit(f'Usage: {argv[0]} ' '<portfile>')
+    
+    portfile = argv[1]
+
+    print_portfolio_cost(portfile)
+
+        
+if __name__ == '__main__':
+    import sys
+    main(sys.argv)
