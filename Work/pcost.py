@@ -14,9 +14,9 @@ def print_portfolio_cost(portfolio):
     # Read dictionaries
     for stock in portfolio:
         try:
-            ticker = stock['name']
-            nshares = stock['shares']
-            price = stock['price']
+            ticker = stock.name
+            nshares = stock.shares
+            price = stock.price
 
             # Calculate cost to purchase all shares in portfolio
             total_cost_ea = nshares * price

@@ -6,13 +6,19 @@ import csv
 from pprint import pprint
 import fileparse
 from icecream import ic
+import stock
 
 def read_portfolio(filename) -> list:
     '''
     Read a stock portfolio file into a list of dictionaries with keys
     name, shares, and price.
     '''
-    return fileparse.parse_csv(filename, has_headers=True, select=['name', 'shares', 'price'], types=[str,int,float])
+    
+    parse_file = fileparse.parse_csv(filename, has_headers=True, select=['name', 'shares', 'price'], types=[str,int,float])
+
+    portfolio = [ stock.Stock(d['name'], d['shares'], d['price']) for d in parse_file ]
+
+    return portfolio
     
 def read_prices(filename) -> dict:
     '''
@@ -30,11 +36,11 @@ def make_report_data(portfolio: list, prices: dict) -> list:
 
     rows = []
     for stock in portfolio:
-        current_price = prices[stock['name']]
-        change = current_price - stock['price']
+        current_price = prices[stock.name]
+        change = current_price - stock.price
         total_value += total_value + current_price
         total_change += total_change + change
-        summary = (stock['name'], stock['shares'], current_price, change)
+        summary = (stock.name, stock.shares, current_price, change)
         rows.append(summary)
     
     return rows, total_value, total_change
