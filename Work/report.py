@@ -49,7 +49,7 @@ def print_report(reportdata: list):
     '''
     Print a nicely formated table from a list of (name, shares, price, change) tuples.
     '''
-    headers = ('Name', 'Shares', 'Price', 'Change', '$')
+    headers = ('Name', 'Shares', 'Price', 'Change')
     print(f'%10s %10s %10s %10s' % (headers[0], headers[1], headers[2], headers[3]))
     print(f'---------- '*4)
     for row in reportdata[0]:
